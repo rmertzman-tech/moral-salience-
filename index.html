@@ -1,412 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Ethics Beyond Boundaries — Course App Suite</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --teal:#0f766e;--teal-dark:#0d5e57;--teal-mid:#14b8a6;--teal-light:#ccfbf1;
-  --amber:#f59e0b;--amber-dark:#92400e;--amber-light:#fef3c7;
-  --navy:#1a2744;--ink:#1f2937;--muted:#6b7280;
-  --border:#e5e7eb;--paper:#f9fafb;
-  --sky:#1e3a8a;--sky-light:#dbeafe;
-  --green:#166534;--green-light:#dcfce7;
-  --red:#dc2626;--red-light:#fee2e2;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Cormorant Garamond','Georgia',serif;background:linear-gradient(135deg,#0a1628 0%,#112240 50%,#0a1628 100%);min-height:100vh;color:var(--ink)}
-.wrap{max-width:1000px;margin:0 auto;padding:1rem 1rem 3rem}
-
-/* HEADER */
-.site-header{text-align:center;padding:2.5rem 1rem 2rem;color:white}
-.site-header .label{font-family:'JetBrains Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:rgba(20,184,166,.75);margin-bottom:.5rem}
-.site-header h1{font-size:2.2rem;font-weight:700;color:white;margin-bottom:.4rem;line-height:1.15}
-.site-header .sub{font-size:1rem;color:rgba(255,255,255,.48);font-style:italic;margin-bottom:1rem}
-.site-header .desc{max-width:640px;margin:0 auto;font-size:.9rem;color:rgba(255,255,255,.55);line-height:1.7}
-
-/* CHAPTER GROUPS */
-.chapter-group{margin-bottom:2rem}
-.group-label{font-family:'JetBrains Mono',monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(20,184,166,.65);margin-bottom:.6rem;padding-left:.1rem}
-.app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.75rem}
-
-/* APP CARDS */
-.app-card{background:white;border-radius:.75rem;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s;box-shadow:0 2px 12px rgba(0,0,0,.15)}
-.app-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.25)}
-.app-card-head{padding:.9rem 1.1rem .7rem;display:flex;align-items:flex-start;gap:.7rem}
-.app-card-icon{font-size:1.5rem;line-height:1;flex-shrink:0;margin-top:.1rem}
-.app-card-title{font-size:1rem;font-weight:700;color:var(--navy);line-height:1.25;margin-bottom:.15rem}
-.app-card-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
-.app-card-body{padding:0 1.1rem .9rem;flex:1}
-.app-card-desc{font-size:.82rem;color:var(--muted);line-height:1.6}
-.app-card-footer{padding:.55rem 1.1rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.app-card-tag{font-family:'JetBrains Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.06em;padding:.18rem .5rem;border-radius:.25rem}
-.tag-case{background:var(--teal-light);color:var(--teal-dark)}
-.tag-companion{background:var(--sky-light);color:var(--sky)}
-.tag-simulation{background:var(--amber-light);color:var(--amber-dark)}
-.tag-reference{background:var(--paper);color:var(--muted);border:1px solid var(--border)}
-.tag-orientation{background:var(--green-light);color:var(--green)}
-.app-card-arrow{font-size:.9rem;color:var(--teal-mid)}
-
-/* ACCENT BORDERS BY CHAPTER */
-.ch-orient .app-card-head{border-top:3px solid #0284c7}
-.ch-1 .app-card-head{border-top:3px solid #7c3aed}
-.ch-2 .app-card-head{border-top:3px solid #dc2626}
-.ch-3 .app-card-head{border-top:3px solid #0f766e}
-.ch-4 .app-card-head{border-top:3px solid #ca8a04}
-.ch-5 .app-card-head{border-top:3px solid #166534}
-.ch-6 .app-card-head{border-top:3px solid #0369a1}
-.ch-7 .app-card-head{border-top:3px solid #9333ea}
-.ch-8 .app-card-head{border-top:3px solid #92400e}
-.ch-9 .app-card-head{border-top:3px solid #0891b2}
-.ch-10 .app-card-head{border-top:3px solid #4f46e5}
-.ch-interlude .app-card-head{border-top:3px solid #0d5e57}
-.ch-rustbelt .app-card-head{border-top:3px solid #b45309}
-.ch-prologue .app-card-head{border-top:3px solid #6d28d9}
-.ch-11 .app-card-head{border-top:3px solid #0f766e}
-.ch-12 .app-card-head{border-top:3px solid #dc2626}
-.ch-13 .app-card-head{border-top:3px solid #1d4ed8}
-.ch-14 .app-card-head{border-top:3px solid #7c3aed}
-.ch-tools .app-card-head{border-top:3px solid #374151}
-
-/* DIVIDER */
-.divider{height:1px;background:rgba(255,255,255,.07);margin:1.5rem 0}
-
-/* PREDICTION CHAIN */
-.chain-bar{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:.65rem;padding:1rem 1.25rem;margin-bottom:1.5rem}
-.chain-bar h3{font-size:.75rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;color:rgba(20,184,166,.65);margin-bottom:.65rem}
-.chain-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
-.chain-node{font-family:'JetBrains Mono',monospace;font-size:.65rem;background:rgba(255,255,255,.07);color:rgba(255,255,255,.65);padding:.22rem .55rem;border-radius:.3rem;white-space:nowrap}
-.chain-arrow{color:rgba(20,184,166,.5);font-size:.85rem}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MS-3 Moral Salience Under Pressure — Multi-Agent UCP Simulation</title>
+  <style>
+    :root{--bg:#f5f7f4;--panel:#fff;--ink:#1f2933;--muted:#64727e;--line:#d8e1dd;--accent:#1b7f79;--dark:#123f3b;--soft:#e7f3f1;--warn:#fff5df;--danger:#fde8e8;--good:#e8f7ed;--blue:#e8f0fb;--shadow:0 8px 24px rgba(20,38,45,.08);--radius:16px}*{box-sizing:border-box}body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--bg);color:var(--ink);line-height:1.45}header{background:linear-gradient(135deg,#173c3a,#1b7f79);color:#fff;padding:30px 18px;border-bottom:5px solid #0f5752}.wrap{max-width:1240px;margin:0 auto}h1,h2,h3{line-height:1.15}h1{margin:0 0 8px;font-size:clamp(1.75rem,4vw,2.8rem)}h2{margin:0 0 12px;color:#163f3c}h3{margin:0 0 8px;color:#1d4f4b}.subtitle{margin:0;max-width:1000px;font-size:1.05rem;opacity:.96}main{padding:22px 18px 42px}.grid{display:grid;grid-template-columns:minmax(310px,.85fr) minmax(360px,1.15fr);gap:20px;align-items:start}@media(max-width:950px){.grid{grid-template-columns:1fr}}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:18px}.scenario{border-left:6px solid var(--accent);background:#fbfffe}.small{font-size:.92rem;color:var(--muted)}.notice{background:var(--soft);border-left:5px solid var(--accent);padding:12px 14px;border-radius:10px;margin:12px 0}.warn{background:var(--warn);border-left-color:#b7791f}.danger{background:var(--danger);border-left-color:#c53030}.good{background:var(--good);border-left-color:#2f855a}.blue{background:var(--blue);border-left-color:#2b6cb0}.control-group{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fbfcfb;margin-bottom:12px}.slider-row{display:grid;grid-template-columns:1fr 58px;gap:10px;align-items:center;margin:10px 0 14px}label{font-weight:700;color:#243b44}input[type=range]{width:100%;accent-color:var(--accent)}select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-family:Arial,sans-serif}.value{font-family:Arial,sans-serif;font-weight:700;color:#125b56;text-align:right}.hint{grid-column:1/-1;margin-top:-8px;font-size:.82rem;color:var(--muted)}.preset-row,.button-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}button{border:0;background:var(--accent);color:white;padding:10px 12px;border-radius:999px;font-weight:700;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.08);font-family:Arial,sans-serif}button:hover{background:#125b56}button.secondary{background:#52636e}.light{background:#dce9e7;color:#123f3b;box-shadow:none}.round-active{outline:3px solid #91d3cd}.score-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}@media(max-width:800px){.score-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.score-grid{grid-template-columns:1fr}}.score-box{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fbfcfb}.score-label{font-family:Arial,sans-serif;font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.score-num{font-family:Arial,sans-serif;font-size:1.85rem;font-weight:800;margin:2px 0;color:#183f3d}.bar{height:9px;background:#e4ebe9;border-radius:999px;overflow:hidden;margin-top:8px}.fill{height:100%;width:0%;background:var(--accent);transition:width .25s ease}.classification{font-size:1.25rem;font-weight:800;color:#133d3a;margin:8px 0 4px}.pill{display:inline-block;padding:6px 9px;border-radius:999px;background:var(--soft);color:#164e4a;font-family:Arial,sans-serif;font-size:.83rem;font-weight:700;margin:4px 6px 4px 0}.agents{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}@media(max-width:760px){.agents{grid-template-columns:1fr}}.agent-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fbfcfb}.agent-card h4{margin:0 0 8px;color:#143f3c}.agent-meta{display:grid;grid-template-columns:1fr 60px;gap:8px;font-family:Arial,sans-serif;font-size:.88rem}.mini-bar{height:7px;background:#e4ebe9;border-radius:999px;overflow:hidden;margin:5px 0}.mini-fill{height:100%;background:var(--accent)}.route{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:760px){.route{grid-template-columns:1fr}}.route-box{border-radius:14px;padding:14px;border:1px solid var(--line);background:#fbfcfb}.route-box strong{color:#153f3c}.table{width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:.88rem}.table th,.table td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.table th{background:#f0f6f4;color:#143f3c}.toggle{display:flex;align-items:center;gap:8px;margin-top:10px;font-family:Arial,sans-serif;font-weight:700;color:#143f3c}.footer-note{font-size:.85rem;color:#6b7781;text-align:center;margin-top:24px}.hidden{display:none}
+  </style>
 </head>
 <body>
-<div class="wrap">
-
-<div class="site-header">
-  <div class="label">Saint Petersburg College &middot; Ethics Institute</div>
-  <h1>Ethics Beyond Boundaries</h1>
-  <div class="sub">Interactive App Suite &middot; Dr. Robert Mertzman</div>
-  <div class="desc">A complete set of simulation apps, case explorers, and companion reading tools for the EBB course. Each app connects to the UCP simulation engine and stores journal predictions for the next chapter.</div>
-</div>
-
-<!-- PREDICTION CHAIN -->
-<div class="chain-bar">
-  <h3>Prediction Chain &mdash; Journal Q5 flows chapter to chapter</h3>
-  <div class="chain-row">
-    <span class="chain-node">Orientation → orient_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch2 → ch2_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch3 → ch3_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch4 → ch4_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch5 → ch5_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch6 → ch6_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch7 → ch7_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Ch8 → ch8_cq5</span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-node">Rust Belt → rust_belt_cq5</span>
+<header><div class="wrap"><h1>Moral Salience Under Pressure</h1><p class="subtitle">MS-3 multi-agent UCP V5.2 / Constructor Ethics demonstration of perceptual harm, OS1 salience distortion, and OS2 perceptual repair in a hospital discharge scenario.</p></div></header>
+<main class="wrap">
+  <div class="grid">
+    <section>
+      <div class="card scenario"><h2>Scenario</h2><p>A patient is scheduled for discharge but appears confused about medication instructions and lacks stable home support. A nurse raises concern. The physician, administrator, repair node, and outside advocate interpret the signal through different PRF lenses and institutional pressures.</p><p class="small"><strong>Question:</strong> Does the patient’s vulnerability become visible as a moral claim, or is it converted into workflow friction?</p></div>
+      <div class="card"><h2>Rounds</h2><p class="small">Each round adds a narrative pressure layer. You can also adjust sliders manually.</p><div class="preset-row" id="roundBtns"></div><div class="notice" id="roundNarrative"></div></div>
+      <div class="card"><h2>Institutional Presets</h2><div class="preset-row"><button onclick="applyPreset('careResponsive')">Care-Responsive</button><button onclick="applyPreset('efficiencyDominant')">Efficiency-Dominant</button><button onclick="applyPreset('fearfulHierarchy')">Fearful Hierarchy</button><button onclick="applyPreset('rightWordsWrongSeeing')">Right Words, Wrong Seeing</button><button onclick="applyPreset('repairIntervention')">Repair Intervention</button><button class="secondary" onclick="resetDefault()">Reset</button></div></div>
+      <div class="card"><h2>Core Sliders</h2><div id="sliderGroups"></div></div>
+    </section>
+    <section>
+      <div class="card"><h2>Multi-Agent Role Assignment</h2><p class="small">Assign a PRF lens to each institutional role. These are pedagogical constructs that draw from the PRF Agent Library logic; the tool is self-contained, so it will still work even if GitHub is offline.</p><div class="agents" id="roleSelectors"></div><p class="small">Public PRF Library reference: <a href="https://rmertzman-tech.github.io/PRF-Agent-Library/" target="_blank" rel="noopener">open companion PRF Agent Library</a>.</p></div>
+      <div class="card"><h2>System Output</h2><div class="score-grid" id="scores"></div><div class="notice" id="classificationBox"></div><div id="coherencePills"></div></div>
+      <div class="card"><h2>Signal Route: OS1 Distortion vs OS2 Repair</h2><div class="route"><div class="route-box danger"><h3>OS1 Route</h3><p id="os1Text"></p></div><div class="route-box good"><h3>OS2 Repair Route</h3><p id="os2Text"></p></div></div></div>
+      <div class="card"><h2>Agent Readings</h2><div class="agents" id="agentReadings"></div></div>
+      <div class="card"><h2>Smithian Impartial Spectator Repair Card</h2><div class="notice blue"><p><strong>1. Name the immediate response:</strong> <span id="smith1"></span></p><p><strong>2. Shift perspective:</strong> <span id="smith2"></span></p><p><strong>3. Revise perception:</strong> <span id="smith3"></span></p></div></div>
+      <div class="card"><h2>Teaching Prompt</h2><p id="teachingPrompt"></p><label class="toggle"><input type="checkbox" id="ucpToggle" onchange="render()"/> Show UCP V5.2 interpretation</label><div class="notice hidden" id="ucpBox"></div></div>
+    </section>
   </div>
-</div>
-
-<!-- ORIENTATION -->
-<div class="chapter-group ch-orient">
-  <div class="group-label">Orientation</div>
-  <div class="app-grid">
-    <a class="app-card" href="ebb-orientation-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🗺️</div><div><div class="app-card-title">Course Orientation</div><div class="app-card-type">Interactive Map</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The watershed model, PRF Peak Calculator, course arc, and Journal Q4 prediction for Chapter 2. Start here before Chapter 1.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-orientation">Orientation</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="day1-orientation.html">
-      <div class="app-card-head"><div class="app-card-icon">📋</div><div><div class="app-card-title">Day 1 Orientation</div><div class="app-card-type">First Class</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">First-day introduction to the course framework, PRF concept, and OS1/OS2 distinction.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-orientation">Day 1</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- CHAPTER 1 -->
-<div class="chapter-group ch-1">
-  <div class="group-label">Chapter 1 &mdash; The PRF</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter1-lens-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🔭</div><div><div class="app-card-title">Your Interpretive Lens</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Build your Phenomenological Reference Framework. How your PRF formed, what it makes visible, and what it makes hard to see.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- CHAPTER 2 -->
-<div class="chapter-group ch-2">
-  <div class="group-label">Chapter 2 &mdash; The Challenger Disaster</div>
-  <div class="app-grid">
-    <a class="app-card" href="challenger-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">🚀</div><div><div class="app-card-title">Challenger Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Roger Boisjoly and the suppression gap. Eight tabs: Discovery through Aftermath. UCP Simulation: Config A (Thiokol) vs. Config B (protected channel). Clickable metric explanations.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter2-telescope-app.html">
-      <div class="app-card-head"><div class="app-card-icon">📡</div><div><div class="app-card-title">Chapter 2 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The suppression gap concept, institutional architecture, and the ethics of speaking truth to power.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- CHAPTER 3 -->
-<div class="chapter-group ch-3">
-  <div class="group-label">Chapter 3 &mdash; Father Hanna</div>
-  <div class="app-grid">
-    <a class="app-card" href="hanna-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">⛪</div><div><div class="app-card-title">Hanna Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Father Saad Sirop Hanna — maintaining identity under maximum institutional entropy. Identity Kernel, BioBond, and the limits of individual courage.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter3-commonwealth-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🏛️</div><div><div class="app-card-title">Chapter 3 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Building commonwealth across difference. The conditions for ethical functioning under extreme constraint.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- CHAPTER 4 -->
-<div class="chapter-group ch-4">
-  <div class="group-label">Chapter 4 &mdash; Wangari Maathai</div>
-  <div class="app-grid">
-    <a class="app-card" href="maathai-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">🌳</div><div><div class="app-card-title">Maathai Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Wangari Maathai and the Green Belt Movement. Coordination architecture, OS2 Bridge, and building institutions that outlast their founders.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter4-maathai-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🌿</div><div><div class="app-card-title">Chapter 4 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Institutional design, capability-based coordination, and the ethics of building structures that distribute agency.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- CHAPTER 5 -->
-<div class="chapter-group ch-5">
-  <div class="group-label">Chapter 5 &mdash; Nelson Mandela</div>
-  <div class="app-grid">
-    <a class="app-card" href="mandela-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">⚖️</div><div><div class="app-card-title">Mandela Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Nelson Mandela and the TRC. Three simulation runs: the TRC design, the fragmentation counterfactual, and the vulnerable population test.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter5-mandela-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🕊️</div><div><div class="app-card-title">Chapter 5 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Truth, reconciliation, and institutional design across radical difference. The TRC as a coordination architecture problem.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- CHAPTER 6 -->
-<div class="chapter-group ch-6">
-  <div class="group-label">Chapter 6 &mdash; Tim Palmer</div>
-  <div class="app-grid">
-    <a class="app-card" href="palmer-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">🌀</div><div><div class="app-card-title">Palmer Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Tim Palmer and ensemble forecasting. Single-model vs. ensemble architecture. The moral argument for honest uncertainty. Three simulation runs.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter6-companion.html">
-      <div class="app-card-head"><div class="app-card-icon">📊</div><div><div class="app-card-title">Chapter 6 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The primacy of doubt. Chaos, uncertainty, and the ethics of what forecasting institutions owe the people who depend on them.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- CHAPTER 7 -->
-<div class="chapter-group ch-7">
-  <div class="group-label">Chapter 7 &mdash; Doyne Farmer</div>
-  <div class="app-grid">
-    <a class="app-card" href="farmer-case-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">🏭</div><div><div class="app-card-title">Farmer Case Explorer</div><div class="app-card-type">Case Explorer + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Doyne Farmer and agent-based economics. Three runs: Representative Agent, Heterogeneous Agents, Rawlsian Test. The COVID prediction and what standard models missed.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Explorer</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="chapter7-farmer-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🔬</div><div><div class="app-card-title">Chapter 7 Companion</div><div class="app-card-type">Companion App</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The invisible people. Representative agent error, heterogeneous modeling, social block fields, and the Rawlsian test. Your field map exercise.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Companion</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- CHAPTER 8 -->
-<div class="chapter-group ch-8">
-  <div class="group-label">Chapter 8 &mdash; The Simulated History of Ethics</div>
-  <div class="app-grid">
-    <a class="app-card" href="ethical-theories-app.html">
-      <div class="app-card-head"><div class="app-card-icon">🏛️</div><div><div class="app-card-title">Ethical Theories App</div><div class="app-card-type">Nine Stations + Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">What were the traditions actually measuring? Nine stations from Socrates to Existentialism. Conditions Cascade visualization. Composite Run with all nine conditions. The Complex PRF.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- CHAPTER 9 -->
-<div class="chapter-group ch-9">
-  <div class="group-label">Chapter 9 &mdash; The World Values Map</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter9-wvm-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127758;</div><div><div class="app-card-title">Where Are You Standing?</div><div class="app-card-type">Cultural PRF &middot; Cross-Cultural Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The World Values Map applied to the simulation. Two axes, five worldview categories, the thermodynamic logic of why values shift with conditions, IPS-WVM connection, and AMC forward pointer.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- CHAPTER 10 -->
-<div class="chapter-group ch-10">
-  <div class="group-label">Chapter 10 &mdash; The Social Contract</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter10-social-contract-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#x2696;&#xFE0F;</div><div><div class="app-card-title">Who Gave Them the Right?</div><div class="app-card-type">Three Architectures &middot; IPS Profiles &middot; Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Hobbes, Locke, and Rousseau as institutional architectures mapped to IPS parameters. Characteristic failure mode per architecture. CPG five criteria as IPS requirements. The Hybrid Citizen framework.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- INTERLUDE -->
-<div class="chapter-group ch-interlude">
-  <div class="group-label">Interlude &mdash; Ethics of the Framework</div>
-  <div class="app-grid">
-    <a class="app-card" href="interlude-ethics-framework-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#9651;</div><div><div class="app-card-title">Ethics of the Framework</div><div class="app-card-type">Agency Conditions Principle &middot; Bridge Reading</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The normative core stated in full: ACP, entropy-exporting institutions, Coherence-Preserving Governance, temporal commons, and the six-question diagnostic for the applied sequence ahead.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Reading</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
-
-<!-- RUST BELT -->
-<div class="chapter-group ch-rustbelt">
-  <div class="group-label">Rust Belt Case Study &mdash; Nine Lenses Applied</div>
-  <div class="app-grid">
-    <a class="app-card" href="rust-belt-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127981;</div><div><div class="app-card-title">Rust Belt &mdash; Nine Ethical Lenses</div><div class="app-card-type">Case Study + Three-Part Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The Rust Belt collapse examined through all nine ethical traditions simultaneously. Pre-collapse, collapse, and current state metrics. The synthesis tab shows what no single lens can see alone.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Study</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- APPLIED SEQUENCE -->
-<div class="chapter-group ch-prologue">
-  <div class="group-label">Prologue &mdash; The Pattern Beneath Ethics</div>
-  <div class="app-grid">
-    <a class="app-card" href="prologue-pattern-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127381;</div><div><div class="app-card-title">The Pattern Beneath Ethics</div><div class="app-card-type">Scale-Free Laws &middot; Agential Hijacking &middot; Course Map</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The scale-invariant mechanism underlying every chapter: parasitic overwrite operating identically at biological, psychological, institutional, and civilizational scales. The mantis case. Course architecture revealed.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-companion">Prologue</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
-
-<div class="chapter-group ch-11">
-  <div class="group-label">Chapter 11 &mdash; Economic Systems (Applied Sequence &middot; Movement 1)</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter11-economic-systems-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127970;</div><div><div class="app-card-title">What the Economy Does to Coherent Agency</div><div class="app-card-type">IPS Diagnostic &middot; BioBond &middot; Peterson et al. 2025</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The False Choice thesis. Nine fairness dimensions as IPS parameters. Florida nursing home ownership archetypes (Peterson/AARP 2025 &amp; CMS data). PE acquisition trajectory 2019&ndash;2024. BioBond instruments. True Solvency Accounting. Three economic architecture simulation configs.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation + IPS</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
-
-<div class="chapter-group ch-12">
-  <div class="group-label">Chapter 12 &mdash; Governance Systems (Applied Sequence &middot; Movement 2)</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter12-governance-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127981;</div><div><div class="app-card-title">Governance Systems and the Routing Quality Gap</div><div class="app-card-type">Four Configs &middot; Boisjoly T4 &middot; Type 1/Type 2 Failure</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Procedural vs. substantive legitimacy. Config A (Captured), B (Coherence-Preserving), C (Reform Transition), D (Boisjoly T4: agent FHRI 82, absorbed 67.7 pts). Type 1 vs. Type 2 routing quality failure distinction.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
-
-<div class="chapter-group ch-13">
-  <div class="group-label">Chapter 13 &mdash; Information Systems (Applied Sequence &middot; Movement 3)</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter13-infosystems-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#128225;</div><div><div class="app-card-title">Information Systems and the Second Filter</div><div class="app-card-type">Web of Acquisition &middot; &sigma;/&mu; Filter Asymmetry &middot; AI Ethics</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The filter upstream of governance. CSER Cambridge web of acquisition framework. IPS mechanism of filter asymmetry: &sigma; (morphic residue) and &mu; (incentive misalignment). Why 80% structural improvement is the honest result. Three simulation configs with IPS profiles.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Simulation</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
-
-<div class="chapter-group ch-14">
-  <div class="group-label">Chapter 14 &mdash; Existential Risk (Applied Sequence &middot; Movement 4)</div>
-  <div class="app-grid">
-    <a class="app-card" href="chapter14-existential-risk-app.html">
-      <div class="app-card-head"><div class="app-card-icon">&#127759;</div><div><div class="app-card-title">Existential Risk, Leverage, and the AMC</div><div class="app-card-type">IPS Field Profiles &middot; Iron Cage &middot; T1/T2 Counterfactuals</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Meadows leverage hierarchy. Iron Cage (high-&sigma;/&rho;) and Obsolescence Trap (high-&epsilon;/&mu;) failure modes. Four-institution IPS field profiles. Trust vector trajectory. T1 vs. T2 intervention types. Paris Agreement analysis. AMC as field architecture.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Multi-Institutional Field</span><span class="app-card-arrow">&#8594;</span></div>
-    </a>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- REFERENCE TOOLS -->
-<div class="chapter-group ch-tools">
-  <div class="group-label">Reference Tools &amp; Labs</div>
-  <div class="app-grid">
-    <a class="app-card" href="ucp-metrics-reference.html">
-      <div class="app-card-head"><div class="app-card-icon">📐</div><div><div class="app-card-title">UCP Metrics Reference</div><div class="app-card-type">Technical Reference</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Complete technical documentation for every simulation metric: formulas, ranges, research grounding, and parameter interactions.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Reference</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="ucp-student-guide.html">
-      <div class="app-card-head"><div class="app-card-icon">📖</div><div><div class="app-card-title">Student Guide</div><div class="app-card-type">How to Use the Simulation</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Plain-language guide to running simulations, reading metrics, and connecting results to the course concepts.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Guide</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="metrics-calibration-lab.html">
-      <div class="app-card-head"><div class="app-card-icon">🧪</div><div><div class="app-card-title">Metrics Calibration Lab</div><div class="app-card-type">Interactive Lab</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Hands-on parameter exploration. Adjust worldview distributions and evidence architectures and watch metrics respond in real time.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-simulation">Lab</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="worldview-comparison.html">
-      <div class="app-card-head"><div class="app-card-icon">🌐</div><div><div class="app-card-title">Worldview Comparison</div><div class="app-card-type">Reference Tool</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Side-by-side comparison of the five worldview frameworks. What each sees, what each misses, and how they interact in the simulation.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Reference</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="trans-temporal-explorer.html">
-      <div class="app-card-head"><div class="app-card-icon">⏳</div><div><div class="app-card-title">Trans-Temporal Explorer</div><div class="app-card-type">Research Tool</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">Generational transmission of coordination capacity. How institutional patterns propagate across time and what degrades or improves them.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-reference">Research</span><span class="app-card-arrow">→</span></div>
-    </a>
-    <a class="app-card" href="cte-challenge.html">
-      <div class="app-card-head"><div class="app-card-icon">🏈</div><div><div class="app-card-title">CTE Challenge</div><div class="app-card-type">Case Study</div></div></div>
-      <div class="app-card-body"><div class="app-card-desc">The NFL's CTE crisis as a coordination failure case. Capability-based coordination in practice.</div></div>
-      <div class="app-card-footer"><span class="app-card-tag tag-case">Case Study</span><span class="app-card-arrow">→</span></div>
-    </a>
-  </div>
-</div>
-
-<div style="text-align:center;padding:2rem 0 1rem;font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.2)">
-  Ethics Beyond Boundaries &middot; Saint Petersburg College &middot; Ethics Institute &middot; &copy; 2026
-</div>
-
-</div>
+  <p class="footer-note">MS-3 is a teaching simulation, not a clinical, psychological, or institutional diagnostic tool. It models salience-forming conditions for classroom discussion.</p>
+</main>
+<script>
+const sliderDefs=[
+ {key:'vss',label:'Vulnerability Signal Strength',group:'Moral Signal',hint:'Patient confusion, fear, medication risk, and lack of support.'},
+ {key:'wss',label:'Warning Signal Strength',group:'Moral Signal',hint:'How clearly nurse/advocate concern is raised.'},
+ {key:'moralSalienceSensitivity',label:'Moral Salience Sensitivity',group:'Agent Perception',hint:'How readily agents perceive vulnerability, dignity, risk, and dependency as morally important.'},
+ {key:'empathicAccess',label:'Empathic Access',group:'Agent Perception',hint:'How available the patient appears as a person making a claim rather than a case or delay.'},
+ {key:'os2Reflection',label:'OS2 Reflection Capacity',group:'Agent Perception',hint:'Capacity to pause, redescribe, and examine first interpretations.'},
+ {key:'correctionUptake',label:'Correction Uptake',group:'Agent Perception',hint:'Likelihood that agents revise perception when challenged.'},
+ {key:'stressHeatLoad',label:'Stress / Heat Load',group:'Institutional Pressure',hint:'Time pressure, fatigue, scarcity, urgency, and caseload strain.'},
+ {key:'metricDominance',label:'Metric Dominance',group:'Institutional Pressure',hint:'How strongly measurable outputs override moral particulars.'},
+ {key:'categoryRigidity',label:'Category Rigidity',group:'Institutional Pressure',hint:'How strongly labels like noncompliant, barrier, or delay fix interpretation.'},
+ {key:'hierarchySuppression',label:'Hierarchy Suppression',group:'Institutional Pressure',hint:'How strongly lower-status perceptions are discounted upward.'},
+ {key:'protectedVoice',label:'Protected Voice',group:'Repair Conditions',hint:'How safe it is to raise concern or dissent.'},
+ {key:'repairCapacity',label:'Repair Capacity',group:'Repair Conditions',hint:'Ability to change action, categories, metrics, or procedure once harm is detected.'}
+];
+const defaultState={vss:75,wss:70,moralSalienceSensitivity:60,empathicAccess:60,os2Reflection:50,correctionUptake:50,stressHeatLoad:60,metricDominance:70,categoryRigidity:65,hierarchySuppression:55,protectedVoice:45,repairCapacity:45};
+const presets={
+ careResponsive:{vss:75,wss:70,moralSalienceSensitivity:80,empathicAccess:80,os2Reflection:75,correctionUptake:80,stressHeatLoad:35,metricDominance:35,categoryRigidity:25,hierarchySuppression:25,protectedVoice:85,repairCapacity:80},
+ efficiencyDominant:{vss:75,wss:65,moralSalienceSensitivity:50,empathicAccess:45,os2Reflection:35,correctionUptake:35,stressHeatLoad:75,metricDominance:90,categoryRigidity:75,hierarchySuppression:55,protectedVoice:40,repairCapacity:35},
+ fearfulHierarchy:{vss:80,wss:85,moralSalienceSensitivity:60,empathicAccess:60,os2Reflection:40,correctionUptake:30,stressHeatLoad:65,metricDominance:65,categoryRigidity:70,hierarchySuppression:90,protectedVoice:15,repairCapacity:30},
+ rightWordsWrongSeeing:{vss:80,wss:70,moralSalienceSensitivity:60,empathicAccess:50,os2Reflection:35,correctionUptake:30,stressHeatLoad:70,metricDominance:85,categoryRigidity:85,hierarchySuppression:60,protectedVoice:50,repairCapacity:25},
+ repairIntervention:{vss:80,wss:80,moralSalienceSensitivity:75,empathicAccess:75,os2Reflection:85,correctionUptake:85,stressHeatLoad:45,metricDominance:45,categoryRigidity:30,hierarchySuppression:25,protectedVoice:90,repairCapacity:85}
+};
+const rounds=[
+ {id:1,title:'Round 1: Baseline Signal',patch:{},text:'The patient expresses confusion about medication instructions. The main question is whether vulnerability becomes visible as vulnerability.'},
+ {id:2,title:'Round 2: Metric Pressure',patch:{stressHeatLoad:10,metricDominance:15,os2Reflection:-5},text:'Discharge speed becomes more urgent. The same patient signal is now filtered through higher heat and stronger throughput pressure.'},
+ {id:3,title:'Round 3: Warning Enters Hierarchy',patch:{wss:15,hierarchySuppression:20,protectedVoice:-10},text:'The nurse raises a clearer warning, but the signal must travel through hierarchy. Does it survive or become overreaction?'},
+ {id:4,title:'Round 4: Normalization',patch:{categoryRigidity:18,correctionUptake:-15,repairCapacity:-10,metricDominance:8},text:'Unsafe discharges have occurred before without immediate visible catastrophe. The system is tempted to normalize the pattern.'},
+ {id:5,title:'Round 5: Repair Intervention',patch:{protectedVoice:25,repairCapacity:25,os2Reflection:20,correctionUptake:20,categoryRigidity:-25,hierarchySuppression:-20,metricDominance:-10},text:'An OS2 repair intervention adds protected voice, category review, and second-look discharge checks.'}
+];
+const profiles={
+ neutral:{name:'Neutral/Mixed Lens',short:'baseline',adj:{},notices:'The basic signal and institutional field.',misses:'No special PRF blind spot is emphasized.',repair:'Use slider changes to locate the salience failure.'},
+ patientVulnerability:{name:'Patient Vulnerability Lens',short:'patient',adj:{vss:10,empathicAccess:12,moralSalienceSensitivity:8,metricDominance:-4},notices:'Fear, dependency, confusion, and loss of agency.',misses:'May lack institutional voice or formal vocabulary.',repair:'Make vulnerability directly visible through teach-back and support assessment.'},
+ careProfessional:{name:'Religious Care Professional',short:'care',adj:{moralSalienceSensitivity:12,empathicAccess:14,wss:8,correctionUptake:5,protectedVoice:-5,hierarchySuppression:5},notices:'Suffering, dependency, broken trust, and abandonment risk.',misses:'May underestimate institutional suppression.',repair:'Protect the caregiver warning channel and translate care perception into actionable discharge criteria.'},
+ progressiveInstitutional:{name:'Progressive Institutional Professional',short:'institutional reform',adj:{wss:8,os2Reflection:8,correctionUptake:10,repairCapacity:7,protectedVoice:5,categoryRigidity:-4},notices:'Procedure failure, retaliation risk, mission-behavior gaps.',misses:'May remain too patient with weak internal reform.',repair:'Use second-look review, transparent escalation, accountable redesign.'},
+ evidencePolicy:{name:'Evidence-Based Policy Professional',short:'evidence',adj:{wss:6,os2Reflection:7,correctionUptake:8,repairCapacity:8,metricDominance:5,empathicAccess:-2},notices:'Near-misses, readmission risk, measurable feedback failure.',misses:'May underweight narrative dignity or unmeasured vulnerability.',repair:'Add patient-understanding and post-discharge safety metrics without losing testimony.'},
+ systemsThinker:{name:'Systems Thinker',short:'systems',adj:{os2Reflection:12,correctionUptake:8,repairCapacity:10,categoryRigidity:-8,metricDominance:-4,empathicAccess:-4},notices:'Feedback loops, dashboard capture, category lock-in, emergent harm.',misses:'May underemphasize the immediate personal claim.',repair:'Map signal → filter → interpretation → response → feedback, then redesign the loop.'},
+ communityElder:{name:'Community Elder',short:'elder',adj:{moralSalienceSensitivity:10,empathicAccess:10,os2Reflection:6,protectedVoice:8,repairCapacity:8,metricDominance:-6},notices:'Trust, relationship, abandonment, long-term accountability.',misses:'May be less precise about formal compliance metrics.',repair:'Use story, witness, follow-up, and practical safeguards.'},
+ workingClassTraditionalist:{name:'Working-Class Traditionalist',short:'traditionalist',adj:{empathicAccess:8,wss:6,metricDominance:-5,categoryRigidity:5,correctionUptake:-5,os2Reflection:-2,protectedVoice:4},notices:'Respect, duty, earned trust, common-sense responsibility.',misses:'May resist outside expert correction when it appears abstract or managerial.',repair:'Frame repair as duty: do not send someone home unprepared.'}
+};
+const roles={
+ patient:{title:'Patient',purpose:'Source of vulnerability signal',defaultProfile:'patientVulnerability',weight:{vss:1.2,empathicAccess:1.1,protectedVoice:.6}},
+ nurse:{title:'Nurse',purpose:'Front-line warning node',defaultProfile:'careProfessional',weight:{wss:1.2,moralSalienceSensitivity:1.2,protectedVoice:.8,hierarchySuppression:1.1}},
+ physician:{title:'Physician',purpose:'Clinical gatekeeper',defaultProfile:'progressiveInstitutional',weight:{os2Reflection:1.0,correctionUptake:1.0,categoryRigidity:1.0,stressHeatLoad:1.0}},
+ administrator:{title:'Administrator',purpose:'Metric and throughput node',defaultProfile:'evidencePolicy',weight:{metricDominance:1.2,categoryRigidity:1.1,repairCapacity:.8}},
+ repair:{title:'Repair Node',purpose:'Ethics/OS2 review pathway',defaultProfile:'systemsThinker',weight:{repairCapacity:1.25,protectedVoice:1.2,os2Reflection:1.2}},
+ advocate:{title:'Outside Advocate',purpose:'External witness and accountability',defaultProfile:'communityElder',weight:{protectedVoice:1.0,wss:1.0,empathicAccess:1.1}}
+};
+let state={...defaultState};let activeRound=1;let roleProfiles={};Object.keys(roles).forEach(k=>roleProfiles[k]=roles[k].defaultProfile);
+function clamp(x){return Math.max(0,Math.min(100,Math.round(x)))}
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function buildUI(){buildRounds();buildSliders();buildRoleSelectors();render()}
+function buildRounds(){const box=document.getElementById('roundBtns');rounds.forEach(r=>{const b=document.createElement('button');b.id='roundBtn'+r.id;b.className='light';b.textContent=r.title.replace('Round ','R');b.onclick=()=>setRound(r.id);box.appendChild(b)})}
+function setRound(id){activeRound=id;render()}
+function buildSliders(){const holder=document.getElementById('sliderGroups');const groups=[...new Set(sliderDefs.map(d=>d.group))];groups.forEach(g=>{const div=document.createElement('div');div.className='control-group';div.innerHTML='<h3>'+g+'</h3>';sliderDefs.filter(d=>d.group===g).forEach(def=>{const row=document.createElement('div');row.className='slider-row';row.innerHTML=`<label for="${def.key}">${def.label}</label><span class="value" id="val-${def.key}">${state[def.key]}</span><input type="range" min="0" max="100" step="1" id="${def.key}" value="${state[def.key]}" oninput="updateSlider('${def.key}',this.value)"><div class="hint">${def.hint}</div>`;div.appendChild(row)});holder.appendChild(div)})}
+function buildRoleSelectors(){const holder=document.getElementById('roleSelectors');Object.entries(roles).forEach(([key,role])=>{const div=document.createElement('div');div.className='agent-card';let opts=Object.entries(profiles).map(([id,p])=>`<option value="${id}">${p.name}</option>`).join('');div.innerHTML=`<h4>${role.title}</h4><p class="small">${role.purpose}</p><select id="role-${key}" onchange="setRoleProfile('${key}',this.value)">${opts}</select>`;holder.appendChild(div);document.getElementById('role-'+key).value=roleProfiles[key]})}
+function updateSlider(key,value){state[key]=Number(value);document.getElementById('val-'+key).textContent=value;render()}
+function syncSliders(){sliderDefs.forEach(def=>{document.getElementById(def.key).value=state[def.key];document.getElementById('val-'+def.key).textContent=state[def.key]})}
+function applyPreset(name){state={...presets[name]};syncSliders();render()}
+function resetDefault(){state={...defaultState};syncSliders();activeRound=1;render()}
+function setRoleProfile(role,profile){roleProfiles[role]=profile;render()}
+function roundState(){const r=rounds.find(x=>x.id===activeRound)||rounds[0];const s={...state};Object.entries(r.patch).forEach(([k,v])=>s[k]=clamp((s[k]??0)+v));return s}
+function profileAdjusted(s,profileId){const p=profiles[profileId]||profiles.neutral;const out={...s};Object.entries(p.adj||{}).forEach(([k,v])=>out[k]=clamp((out[k]??0)+v));return out}
+function computeScores(s){const moralSalienceScore=clamp(.30*s.vss+.15*s.wss+.15*s.moralSalienceSensitivity+.10*s.empathicAccess+.15*s.os2Reflection+.15*s.correctionUptake-.15*s.stressHeatLoad-.15*s.metricDominance-.10*s.categoryRigidity-.10*s.hierarchySuppression);let perceptualHarmIndex=clamp(.20*s.stressHeatLoad+.25*s.metricDominance+.20*s.categoryRigidity+.15*s.hierarchySuppression+.10*(100-s.protectedVoice)+.10*(100-s.correctionUptake));if(s.vss>70&&moralSalienceScore<45)perceptualHarmIndex=clamp(perceptualHarmIndex+15);const actionRiskScore=clamp(.35*perceptualHarmIndex+.25*s.metricDominance+.15*s.stressHeatLoad+.15*(100-s.repairCapacity)+.10*(100-s.protectedVoice));const repairReadinessScore=clamp(.25*s.protectedVoice+.25*s.repairCapacity+.20*s.correctionUptake+.20*s.os2Reflection+.10*s.empathicAccess);const coherence={operational:clamp(.40*s.metricDominance+.25*s.stressHeatLoad+.20*s.categoryRigidity+.15*s.hierarchySuppression),role:clamp(.35*s.categoryRigidity+.35*s.hierarchySuppression+.15*s.stressHeatLoad+.15*s.metricDominance),narrative:clamp(.30*s.categoryRigidity+.25*s.metricDominance+.20*(100-s.correctionUptake)+.25*(100-s.repairCapacity)),moral:clamp(.30*s.moralSalienceSensitivity+.20*s.empathicAccess+.20*s.correctionUptake+.15*s.protectedVoice+.15*s.os2Reflection),repair:clamp(.30*s.repairCapacity+.25*s.protectedVoice+.20*s.correctionUptake+.15*s.os2Reflection+.10*s.wss)};return{moralSalienceScore,perceptualHarmIndex,actionRiskScore,repairReadinessScore,coherence}}
+function computeAgent(roleKey){const base=roundState();const s=profileAdjusted(base,roleProfiles[roleKey]);const r=computeScores(s);return {s,r,profile:profiles[roleProfiles[roleKey]]}}
+function aggregate(){const agents=Object.keys(roles).map(k=>computeAgent(k));const avg={};['moralSalienceScore','perceptualHarmIndex','actionRiskScore','repairReadinessScore'].forEach(key=>avg[key]=clamp(agents.reduce((sum,a)=>sum+a.r[key],0)/agents.length));const coh={operational:0,role:0,narrative:0,moral:0,repair:0};agents.forEach(a=>Object.keys(coh).forEach(k=>coh[k]+=a.r.coherence[k]));Object.keys(coh).forEach(k=>coh[k]=clamp(coh[k]/agents.length));avg.coherence=coh;return avg}
+function classify(r){const s=roundState();if(r.moralSalienceScore>=75&&r.repairReadinessScore>=60)return'Moral Claim / Repair Trigger';if(r.moralSalienceScore>=50)return'Visible Concern';if(r.moralSalienceScore<30&&s.hierarchySuppression>=70)return'Suppressed Warning';if(r.moralSalienceScore<30&&s.categoryRigidity>=75&&s.metricDominance>=75)return'Normalized Moral Blindness';if(r.moralSalienceScore<50&&(s.metricDominance>=60||s.categoryRigidity>=60))return'Workflow Friction';return'Ambiguous Concern'}
+function level(score,type){if(type==='salience'){if(score>=76)return'Strong moral claim';if(score>=51)return'Moral concern visible';if(score>=26)return'Weak/ambiguous concern';return'Moral signal suppressed'}if(type==='harm'){if(score>=76)return'Severe moral invisibility';if(score>=51)return'High perceptual harm';if(score>=26)return'Moderate salience distortion';return'Low perceptual harm'}if(type==='risk'){if(score>=76)return'Severe downstream risk';if(score>=51)return'High action risk';if(score>=26)return'Caution required';return'Low action risk'}if(score>=76)return'Strong repair capacity';if(score>=51)return'Repair possible';if(score>=26)return'Repair fragile';return'Repair blocked'}
+function classificationText(c,r){if(c==='Moral Claim / Repair Trigger')return'The patient’s fear is interpreted as vulnerability requiring coordinated response. Protected voice and repair capacity allow warnings to become actionable.';if(c==='Visible Concern')return'The system recognizes a possible moral issue, but whether concern becomes action depends on repair authority and correction uptake.';if(c==='Workflow Friction')return'Patient vulnerability is present, but pressure and categories convert it into delay, noncompliance, or discharge resistance.';if(c==='Suppressed Warning')return'The nurse or advocate warning is present, but hierarchy and weak protected voice cause it to lose force as it moves upward.';if(c==='Normalized Moral Blindness')return'The facts remain visible, but ethical priority is suppressed. This is moral invisibility within visibility.';return'The system is unstable: the signal has not become clearly moral claim or clearly workflow friction.'}
+function renderScores(r){const defs=[['moralSalienceScore','Moral Salience',level(r.moralSalienceScore,'salience')],['perceptualHarmIndex','Perceptual Harm',level(r.perceptualHarmIndex,'harm')],['actionRiskScore','Action Risk',level(r.actionRiskScore,'risk')],['repairReadinessScore','Repair Readiness',level(r.repairReadinessScore,'repair')]];document.getElementById('scores').innerHTML=defs.map(([key,label,txt])=>`<div class="score-box"><div class="score-label">${label}</div><div class="score-num">${r[key]}</div><div class="small">${txt}</div><div class="bar"><div class="fill" style="width:${r[key]}%"></div></div></div>`).join('')}
+function renderCoherence(coh){const labels={operational:'Operational Coherence',role:'Role Coherence',narrative:'Narrative Coherence',moral:'Moral Coherence',repair:'Repair Coherence'};const arr=Object.entries(coh).sort((a,b)=>b[1]-a[1]);document.getElementById('coherencePills').innerHTML=arr.map(([k,v])=>`<span class="pill">${labels[k]}: ${v}</span>`).join('')}
+function renderAgents(){const holder=document.getElementById('agentReadings');holder.innerHTML=Object.entries(roles).map(([key,role])=>{const a=computeAgent(key);const p=a.profile;const c=classify(a.r);return `<div class="agent-card"><h4>${role.title}: ${p.name}</h4><p class="small"><strong>Notices:</strong> ${esc(p.notices)}</p><p class="small"><strong>May miss:</strong> ${esc(p.misses)}</p><div class="agent-meta"><span>Salience</span><strong>${a.r.moralSalienceScore}</strong></div><div class="mini-bar"><div class="mini-fill" style="width:${a.r.moralSalienceScore}%"></div></div><div class="agent-meta"><span>Repair readiness</span><strong>${a.r.repairReadinessScore}</strong></div><div class="mini-bar"><div class="mini-fill" style="width:${a.r.repairReadinessScore}%"></div></div><p class="small"><strong>Local reading:</strong> ${c}</p><p class="small"><strong>Repair move:</strong> ${esc(p.repair)}</p></div>`}).join('')}
+function renderRound(){rounds.forEach(r=>document.getElementById('roundBtn'+r.id).classList.toggle('round-active',r.id===activeRound));const r=rounds.find(x=>x.id===activeRound)||rounds[0];document.getElementById('roundNarrative').innerHTML='<strong>'+r.title+'</strong><br>'+r.text}
+function renderRoute(c,r){let os1='The automatic role-filtered route treats the patient’s statement as a discharge barrier, compliance issue, or administrative delay.';let os2='The reflective route pauses discharge, redescribes the signal, checks the alternate PRF, and asks whether confusion is vulnerability requiring coordinated support.';if(c==='Moral Claim / Repair Trigger'){os1='OS1 pressure is present but not dominant. The pull of speed and routine is interrupted before it defines the case.';os2='OS2 repair is active: warnings are protected, patient fear is morally salient, and safe-discharge review is triggered.'}else if(c==='Suppressed Warning'){os1='Hierarchy causes the warning to be discounted as overreaction, low-status noise, or obstruction.';os2='The repair path strengthens protected voice and requires the warning to survive upward translation.'}else if(c==='Normalized Moral Blindness'){os1='The institution has learned to see repeated risk as ordinary workflow. The warning no longer sounds like warning.';os2='The repair path uses category audit and case memory to break normalization and restore danger as salient.'}else if(c==='Workflow Friction'){os1='Metrics and rigid categories convert fear into noncompliance, family uncertainty into delay, and nurse concern into workflow resistance.';os2='The repair path asks what the signal would look like if patient dignity and foreseeable harm were centered.'}document.getElementById('os1Text').textContent=os1;document.getElementById('os2Text').textContent=os2}
+function renderSmith(c){document.getElementById('smith1').textContent=c==='Moral Claim / Repair Trigger'?'The immediate response has already shifted toward vulnerability. Still name the pressure to rush.':'The first appearance may be: “This patient is delaying discharge” or “the nurse is overreacting.”';document.getElementById('smith2').textContent='Ask how a reasonable observer would see both institutional pressure and the patient’s dependence, confusion, and foreseeable risk.';document.getElementById('smith3').textContent=c==='Workflow Friction'||c==='Suppressed Warning'||c==='Normalized Moral Blindness'?'The signal should be redescribed as vulnerability or warning, not merely friction. Repair requires a safe-discharge check and protected escalation.':'The broader standpoint confirms that a pause or second-look review is ethically justified.'}
+function renderPrompt(c,r){let p='Which role’s PRF most changed what became morally salient? Who is responsible for repairing the salience-forming conditions?';if(c==='Workflow Friction')p='Which slider or role converted vulnerability into friction? What repair intervention would make the patient visible as a claimant rather than a delay?';if(c==='Suppressed Warning')p='Where did the warning lose force: hierarchy, protected voice, category rigidity, or weak repair authority?';if(c==='Moral Claim / Repair Trigger')p='Which conditions allowed the warning to survive and become actionable? Could the institution preserve this repair capacity under higher stress?';if(c==='Normalized Moral Blindness')p='How did repeated practice become moral blindness? What form of institutional memory would interrupt normalization?';document.getElementById('teachingPrompt').textContent=p}
+function renderUCP(r,c){const box=document.getElementById('ucpBox');const on=document.getElementById('ucpToggle').checked;box.classList.toggle('hidden',!on);if(!on)return;box.innerHTML=`<p><strong>UCP formula:</strong> signal + PRF profile + institutional pressure → salience classification → action-space.</p><p><strong>Current classification:</strong> ${c}. Perceptual harm appears when the moral signal remains present but ethical priority is suppressed while another coherence regime is preserved.</p><p><strong>Constructor Ethics reading:</strong> the repair task is to redesign conditions so vulnerability can reliably transform into coordinated care rather than workflow friction.</p>`}
+function render(){renderRound();const r=aggregate();const c=classify(r);renderScores(r);document.getElementById('classificationBox').className='notice '+(r.perceptualHarmIndex>65?'danger':r.repairReadinessScore>65?'good':'');document.getElementById('classificationBox').innerHTML=`<div class="classification">${c}</div><p>${classificationText(c,r)}</p>`;renderCoherence(r.coherence);renderRoute(c,r);renderAgents();renderSmith(c);renderPrompt(c,r);renderUCP(r,c)}
+buildUI();
+</script>
 </body>
 </html>
