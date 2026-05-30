@@ -11,7 +11,7 @@
   </style>
 </head>
 <body>
-<header><div class="wrap"><h1>Moral Salience Under Pressure</h1><p class="subtitle">MS-3E integrated EBB classroom edition: a multi-agent simulation of perceptual harm, OS1 salience distortion, OS2 perceptual repair, PRF lenses, SAGE reflection, ABCD ethical attention, and UCP V5.2 / Constructor Ethics framing.</p></div></header>
+<header><div class="wrap"><h1>Moral Salience Under Pressure</h1><p class="subtitle">MS-3E.1 refined EBB classroom edition: a multi-agent simulation of perceptual harm, OS1 salience distortion, OS2 perceptual repair, PRF lenses, SAGE reflection, ABCD ethical attention, and UCP V5.2 / Constructor Ethics framing.</p></div></header>
 <main class="wrap">
 
   <div class="card mode-panel" data-modes="student ebb technical instructor">
@@ -59,7 +59,7 @@
     <h2>Instructor Notes and Canvas Handoff</h2>
     <details class="ebbd" open><summary>Recommended sequence</summary><p>Run Baseline, Efficiency-Dominant, Right Words Wrong Seeing, Fearful Hierarchy, and Repair Intervention. After each run, ask students to identify the morally relevant signal, the distortion mechanism, and the repair move.</p></details>
     <details class="ebbd"><summary>Canvas-ready reflection prompt</summary><p>In 150–250 words, explain how this simulation illustrates the claim that moral action begins before action. Identify one variable or PRF lens that changed what became morally visible, and propose one repair practice that would reduce perceptual harm.</p></details>
-    <details class="ebbd"><summary>EBB ecosystem links</summary><p><a href="https://rmertzman-tech.github.io/PRF-Agent-Library/" target="_blank" rel="noopener">PRF Agent Library</a> supports the PRF lens layer. This simulation can also be paired with Capability Lab, MCCTS, and the Perceptual Harm paper as a classroom bridge from moral perception to ethical repair.</p></details>
+    <details class="ebbd"><summary>EBB ecosystem links</summary><p><a href="https://rmertzman-tech.github.io/PRF-Agent-Library/" target="_blank" rel="noopener">PRF Agent Library</a> supports the PRF lens layer. Pair this simulation with <a href="https://rmertzman-tech.github.io/mccts/" target="_blank" rel="noopener">MCCTS</a> to help students translate the simulation run into an OS1→OS2 argument, reflection, and repair plan. It can also be paired with Capability Lab and the Perceptual Harm paper as a classroom bridge from moral perception to ethical repair.</p></details>
   </div>
 
   <p class="footer-note">MS-3 is a teaching simulation, not a clinical, psychological, or institutional diagnostic tool. It models salience-forming conditions for classroom discussion.</p>
@@ -139,24 +139,65 @@ function renderCoherence(coh){const labels={operational:'Operational Coherence',
 function renderAgents(){const holder=document.getElementById('agentReadings');holder.innerHTML=Object.entries(roles).map(([key,role])=>{const a=computeAgent(key);const p=a.profile;const c=classify(a.r);return `<div class="agent-card"><h4>${role.title}: ${p.name}</h4><p class="small"><strong>Notices:</strong> ${esc(p.notices)}</p><p class="small"><strong>May miss:</strong> ${esc(p.misses)}</p><div class="agent-meta"><span>Salience</span><strong>${a.r.moralSalienceScore}</strong></div><div class="mini-bar"><div class="mini-fill" style="width:${a.r.moralSalienceScore}%"></div></div><div class="agent-meta"><span>Repair readiness</span><strong>${a.r.repairReadinessScore}</strong></div><div class="mini-bar"><div class="mini-fill" style="width:${a.r.repairReadinessScore}%"></div></div><p class="small"><strong>Local reading:</strong> ${c}</p><p class="small"><strong>Repair move:</strong> ${esc(p.repair)}</p></div>`}).join('')}
 function renderRound(){rounds.forEach(r=>document.getElementById('roundBtn'+r.id).classList.toggle('round-active',r.id===activeRound));const r=rounds.find(x=>x.id===activeRound)||rounds[0];document.getElementById('roundNarrative').innerHTML='<strong>'+r.title+'</strong><br>'+r.text}
 function renderRoute(c,r){let os1='The automatic role-filtered route treats the patient’s statement as a discharge barrier, compliance issue, or administrative delay.';let os2='The reflective route pauses discharge, redescribes the signal, checks the alternate PRF, and asks whether confusion is vulnerability requiring coordinated support.';if(c==='Moral Claim / Repair Trigger'){os1='OS1 pressure is present but not dominant. The pull of speed and routine is interrupted before it defines the case.';os2='OS2 repair is active: warnings are protected, patient fear is morally salient, and safe-discharge review is triggered.'}else if(c==='Suppressed Warning'){os1='Hierarchy causes the warning to be discounted as overreaction, low-status noise, or obstruction.';os2='The repair path strengthens protected voice and requires the warning to survive upward translation.'}else if(c==='Normalized Moral Blindness'){os1='The institution has learned to see repeated risk as ordinary workflow. The warning no longer sounds like warning.';os2='The repair path uses category audit and case memory to break normalization and restore danger as salient.'}else if(c==='Workflow Friction'){os1='Metrics and rigid categories convert fear into noncompliance, family uncertainty into delay, and nurse concern into workflow resistance.';os2='The repair path asks what the signal would look like if patient dignity and foreseeable harm were centered.'}document.getElementById('os1Text').textContent=os1;document.getElementById('os2Text').textContent=os2}
-function renderSmith(c){document.getElementById('smith1').textContent=c==='Moral Claim / Repair Trigger'?'The immediate response has already shifted toward vulnerability. Still name the pressure to rush.':'The first appearance may be: “This patient is delaying discharge” or “the nurse is overreacting.”';document.getElementById('smith2').textContent='Ask how a reasonable observer would see both institutional pressure and the patient’s dependence, confusion, and foreseeable risk.';document.getElementById('smith3').textContent=c==='Workflow Friction'||c==='Suppressed Warning'||c==='Normalized Moral Blindness'?'The signal should be redescribed as vulnerability or warning, not merely friction. Repair requires a safe-discharge check and protected escalation.':'The broader standpoint confirms that a pause or second-look review is ethically justified.'}
+function renderSmith(c){
+  document.getElementById('smith1').textContent=c==='Moral Claim / Repair Trigger'?'The immediate response has already shifted toward vulnerability. Still name the pressure to rush.':'The first appearance may be: “This patient is delaying discharge” or “the nurse is overreacting.”';
+  document.getElementById('smith2').textContent='Ask how a reasonable observer would see both institutional pressure and the patient’s dependence, confusion, and foreseeable risk.';
+  const smith3Map={
+    'Workflow Friction':'Redescribe: what would a safe discharge check require that this patient cannot currently provide? The category “discharge resistance” should become “unresolved vulnerability.”',
+    'Suppressed Warning':'The warning needs institutional authority, not just personal conviction. Ask: who has the formal power to require this warning be heard before discharge proceeds?',
+    'Normalized Moral Blindness':'A category audit is needed first. What institutional language made repeated risk appear normal? Name the label that neutralized the signal, and ask what it is hiding.',
+    'Moral Claim / Repair Trigger':'The broader standpoint confirms the pause. Document what allowed this warning to survive so the repair capacity can be preserved under higher pressure.',
+    default:'The broader standpoint may revise the initial framing. Ask whether the patient appears as a claimant or a case from the less self-enclosed position.'
+  };
+  document.getElementById('smith3').textContent=smith3Map[c]||smith3Map.default;
+}
 function renderPrompt(c,r){let p='Which role’s PRF most changed what became morally salient? Who is responsible for repairing the salience-forming conditions?';if(c==='Workflow Friction')p='Which slider or role converted vulnerability into friction? What repair intervention would make the patient visible as a claimant rather than a delay?';if(c==='Suppressed Warning')p='Where did the warning lose force: hierarchy, protected voice, category rigidity, or weak repair authority?';if(c==='Moral Claim / Repair Trigger')p='Which conditions allowed the warning to survive and become actionable? Could the institution preserve this repair capacity under higher stress?';if(c==='Normalized Moral Blindness')p='How did repeated practice become moral blindness? What form of institutional memory would interrupt normalization?';document.getElementById('teachingPrompt').textContent=p}
 function renderUCP(r,c){const box=document.getElementById('ucpBox');const on=document.getElementById('ucpToggle').checked;box.classList.toggle('hidden',!on);if(!on)return;box.innerHTML=`<p><strong>UCP formula:</strong> signal + PRF profile + institutional pressure → salience classification → action-space.</p><p><strong>Current classification:</strong> ${c}. Perceptual harm appears when the moral signal remains present but ethical priority is suppressed while another coherence regime is preserved.</p><p><strong>Constructor Ethics reading:</strong> the repair task is to redesign conditions so vulnerability can reliably transform into coordinated care rather than workflow friction.</p>`}
 
 function setMode(mode){viewMode=mode;document.querySelectorAll('#modeBar button').forEach(b=>b.classList.toggle('active-mode',b.dataset.mode===mode));if(mode==='technical'){const t=document.getElementById('ucpToggle'); if(t) t.checked=true;}applyViewMode();render();}
 function applyViewMode(){document.querySelectorAll('.mode-panel[data-modes]').forEach(el=>{const modes=(el.getAttribute('data-modes')||'').split(/\s+/);el.classList.toggle('mode-hidden',!modes.includes(viewMode));});document.querySelectorAll('#modeBar button').forEach(b=>b.classList.toggle('active-mode',b.dataset.mode===viewMode));}
-function renderSAGE(r,c){const sage={
-  See: c==='Moral Claim / Repair Trigger'?'Vulnerability and warning become visible as moral claims.':c==='Suppressed Warning'?'The warning is present but loses force in hierarchy.':c==='Workflow Friction'?'Vulnerability is visible but reclassified as delay or resistance.':c==='Normalized Moral Blindness'?'The signal is visible but ethically downgraded through repeated practice.':'The concern is present but remains ambiguous.',
-  Analyze: `Perceptual Harm ${r.perceptualHarmIndex}; Repair Readiness ${r.repairReadinessScore}. Examine metric dominance, category rigidity, protected voice, and correction uptake.`,
-  Generate: r.repairReadinessScore>60?'Use second-look review, protected escalation, patient-understanding check, and category audit.':'Increase protected voice, reduce category rigidity, add second-look pause, and give repair node authority.',
-  Engage: c==='Moral Claim / Repair Trigger'?'Pause discharge long enough to coordinate safe support and document the repair learning.':'Do not proceed as if this is merely workflow friction; activate OS2 redescription before action.'
-};document.getElementById('sageOutput').innerHTML=Object.entries(sage).map(([k,v])=>`<div class="framework-box"><div class="tagline">SAGE</div><h4>${k}</h4><p class="small">${v}</p></div>`).join('')}
-function renderABCD(r,c){const abcd={
-  Agency: r.moralSalienceScore>=50?'Patient and nurse agency remain partly visible; protect their voice in the decision path.':'Patient and nurse agency are being narrowed by role pressure or hierarchy.',
-  'Beauty/Awe': 'Do not flatten the patient into a metric event; preserve dignity, vulnerability, and human significance.',
-  Context: `Institutional context is shaping perception: operational ${r.coherence.operational}, role ${r.coherence.role}, narrative ${r.coherence.narrative}.`,
-  Dynamism: r.repairReadinessScore>=60?'Feedback can become repair rather than defensiveness; preserve the learning loop.':'Without repair capacity, repeated runs normalize the distortion.'
-};document.getElementById('abcdOutput').innerHTML=Object.entries(abcd).map(([k,v])=>`<div class="framework-box"><div class="tagline">ABCD</div><h4>${k}</h4><p class="small">${v}</p></div>`).join('')}
+function renderSAGE(r,c){
+  const s=roundState();
+  const pressures={
+    'Metric Dominance':s.metricDominance,
+    'Category Rigidity':s.categoryRigidity,
+    'Hierarchy Suppression':s.hierarchySuppression,
+    'Stress / Heat Load':s.stressHeatLoad
+  };
+  const repairs={
+    'Protected Voice':s.protectedVoice,
+    'Correction Uptake':s.correctionUptake,
+    'OS2 Reflection':s.os2Reflection,
+    'Repair Capacity':s.repairCapacity
+  };
+  const highestPressure=Object.entries(pressures).sort((a,b)=>b[1]-a[1])[0];
+  const weakestRepair=Object.entries(repairs).sort((a,b)=>a[1]-b[1])[0];
+  const analyzeText=c==='Suppressed Warning'?`Perceptual Harm ${r.perceptualHarmIndex}. Focus on hierarchy suppression (${s.hierarchySuppression}) and protected voice (${s.protectedVoice}). These determine whether the warning survives its institutional journey.`:
+    c==='Normalized Moral Blindness'?`Perceptual Harm ${r.perceptualHarmIndex}. Focus on category rigidity (${s.categoryRigidity}) and correction uptake (${s.correctionUptake}). Normalization works through rigid labels and refusal to revise.`:
+    c==='Workflow Friction'?`Perceptual Harm ${r.perceptualHarmIndex}. Focus on metric dominance (${s.metricDominance}) and category rigidity (${s.categoryRigidity}). These convert vulnerability into administrative categories.`:
+    `Perceptual Harm ${r.perceptualHarmIndex}; Repair Readiness ${r.repairReadinessScore}. Compare the strongest pressure variable, ${highestPressure[0]} (${highestPressure[1]}), with the weakest repair condition, ${weakestRepair[0]} (${weakestRepair[1]}).`;
+  const sage={
+    See: c==='Moral Claim / Repair Trigger'?'Vulnerability and warning become visible as moral claims.':c==='Suppressed Warning'?'The warning is present but loses force in hierarchy.':c==='Workflow Friction'?'Vulnerability is visible but reclassified as delay or resistance.':c==='Normalized Moral Blindness'?'The signal is visible but ethically downgraded through repeated practice.':'The concern is present but remains ambiguous.',
+    Analyze: analyzeText,
+    Generate: r.repairReadinessScore>60?'Use second-look review, protected escalation, patient-understanding check, and category audit.':'Increase protected voice, reduce category rigidity, add second-look pause, and give repair node authority.',
+    Engage: c==='Moral Claim / Repair Trigger'?'Pause discharge long enough to coordinate safe support and document the repair learning.':'Do not proceed as if this is merely workflow friction; activate OS2 redescription before action.'
+  };
+  document.getElementById('sageOutput').innerHTML=Object.entries(sage).map(([k,v])=>`<div class="framework-box"><div class="tagline">SAGE</div><h4>${k}</h4><p class="small">${v}</p></div>`).join('')
+}
+function renderABCD(r,c){
+  const beautyText=c==='Workflow Friction'?'The patient has become invisible as a person. Dignity is being processed as a metric event or administrative category.':
+    c==='Normalized Moral Blindness'?'Repeated exposure has deadened the moral imagination. What once appeared as vulnerability now appears as ordinary friction.':
+    c==='Suppressed Warning'?'The nurse who sees the patient most clearly is the one whose voice is most suppressed. Moral vision and institutional voice have been separated.':
+    c==='Moral Claim / Repair Trigger'?'Dignity and vulnerability are being honored. The patient appears as a person with a claim, not a workflow event.':
+    'Whether the patient appears as a person or a case depends on which PRF lens shapes the next interpretation.';
+  const abcd={
+    Agency: r.moralSalienceScore>=50?'Patient and nurse agency remain partly visible; protect their voice in the decision path.':'Patient and nurse agency are being narrowed by role pressure or hierarchy.',
+    'Beauty/Awe': beautyText,
+    Context: `Institutional context is shaping perception: operational ${r.coherence.operational}, role ${r.coherence.role}, narrative ${r.coherence.narrative}.`,
+    Dynamism: r.repairReadinessScore>=60?'Feedback can become repair rather than defensiveness; preserve the learning loop.':'Without repair capacity, repeated runs normalize the distortion.'
+  };
+  document.getElementById('abcdOutput').innerHTML=Object.entries(abcd).map(([k,v])=>`<div class="framework-box"><div class="tagline">ABCD</div><h4>${k}</h4><p class="small">${v}</p></div>`).join('')
+}
 
 function render(){renderRound();const r=aggregate();const c=classify(r);renderScores(r);renderSAGE(r,c);renderABCD(r,c);document.getElementById('classificationBox').className='notice '+(r.perceptualHarmIndex>65?'danger':r.repairReadinessScore>65?'good':'');document.getElementById('classificationBox').innerHTML=`<div class="classification">${c}</div><p>${classificationText(c,r)}</p>`;renderCoherence(r.coherence);renderRoute(c,r);renderAgents();renderSmith(c);renderPrompt(c,r);renderUCP(r,c)}
 buildUI();
